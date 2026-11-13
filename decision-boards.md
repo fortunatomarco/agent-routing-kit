@@ -1,6 +1,7 @@
 # Decision boards
 
-Read when: a project sends an important decision with two or more options to a board, or you build or wait on one. A board is a local page where the user picks an option for each decision and sends the answers. `tools/lavish_board.py` runs it on a pinned `lavish-axi` 0.1.87 install in `~/.agent-tools/lavish-axi/`.
+Read when: a project sends an important decision with two or more options to a board, or you build or wait on one. A board is a local page where the user picks an option for each decision and sends the answers. `tools/lavish_board.py` runs it on the installed `lavish-axi` tool, at the path the tool reports.
+Reader: coordinator.
 
 ## Rule
 
@@ -18,12 +19,12 @@ Read when: a project sends an important decision with two or more options to a b
 5. **Coordinator:** when the background call exits, handle its output as described below. Map option ids to labels from `/tmp/lavish-boards/payload-<id>.json`. Check that every decision id is answered, `defer` or `unanswered`. Record each decision at its project home. Clear the dashboard line. Put `unanswered` and `defer` decisions on the next board or the selector.
 
 ```bash
-python3 <kit-folder>/tools/lavish_board.py wait /tmp/lavish-boards/<id> --until end --slice 7000 --budget 7000
+python3 <kit>/tools/lavish_board.py wait /tmp/lavish-boards/<id> --until end --slice 7000 --budget 7000
 ```
 
 Use this exact command form for the coordinator's Bash guard. Put no flag between `python3` and the script. The guard rejects environment prefixes, redirects, `&`, `$()` and newlines. The coordinator runs only `wait` and `close`. The build worker runs `doctor`, `build`, `update` and `open`. The build worker owns `open` because the guard cannot restrict what it opens.
 
-- `ended:` gives the `answers/final.md` path and the answers. Run `python3 <kit-folder>/tools/lavish_board.py close /tmp/lavish-boards/<id>`. Then read and record the answers.
+- `ended:` gives the `answers/final.md` path and the answers. Run `python3 <kit>/tools/lavish_board.py close /tmp/lavish-boards/<id>`. Then read and record the answers.
 - `message:` gives a free message. Handle it, then run the same background `wait` call again.
 - `deadline: board stays open; run wait again for late answers` means the budget ran out. Tell the user that the board stays open. Run `wait` again only on request.
 - `slice: no answer yet` means a slice ended first. With the equal slice and budget above, one call waits until an answer or the deadline.
@@ -69,7 +70,7 @@ Run from the project folder, with the kit path from the brief.
 1. Choose the board id, questions, options, recommendations, briefs, details and mocks. Write `/tmp/lavish-boards/payload-<id>.json`. For a visual decision, check each mock before the build.
 2. Run `python3 -B <kit>/tools/lavish_board.py doctor`, then `python3 -B <kit>/tools/lavish_board.py build /tmp/lavish-boards/payload-<id>.json`. The tool sets telemetry off, host `127.0.0.1`, no browser launch and port 43871 itself. `build` prints the folder, session URL and listening sockets.
 3. With a browser value, run `open -a "<browser>" "<session URL>"` (macOS). Also call `preview_open` and `preview_snapshot` when the T3 preview tools allow. The preview may report `visible:false`; the browser is the route to the user.
-4. Leave the server and session open. Put the evidence report in the project's `.llm-wiki/reports/` folder. Return `done`, the board folder, session URL, and one line per decision with its id and question. Never run `wait`.
+4. Leave the server and session open. Put the evidence report in the project's folder for reports. Return `done`, the board folder, session URL, and one line per decision with its id and question. Never run `wait`.
 5. If `doctor`, `build` or the browser step fails, run `python3 -B <kit>/tools/lavish_board.py close /tmp/lavish-boards/<id>` if `build` ran. Return `blocked: board unavailable: <reason>`. A project with no browser value uses the preview only.
 
 ## Update
@@ -85,21 +86,6 @@ The build worker can revise an open board with `python3 -B <kit>/tools/lavish_bo
 - **A choice not queued:** Lavish sends only queued answers. The page shows "N chosen but not queued". The choice would come back as `unanswered`. Not tested with a real send.
 - **Two waits on one board:** the second exits with `blocked: another worker is already waiting on this board`. Keep one background call per board.
 
-## Evidence and limits
+## Limits
 
-The tests ran on 2026-10-13 and 2026-10-14 on one Mac. The reports are in the origin project's repository (not part of this kit), `.llm-wiki/reports/`. Line numbers are those of the reports as written.
-
-| Fact | Evidence | Limit |
-| --- | --- | --- |
-| The tool builds, serves, updates, waits and closes a board; 8 unit tests pass | `lavish-board-install-report-20261013.md:44`, `:64` | takeover and every refusal path not run live (`:64`, `:77`) |
-| The page renders in the T3 preview with 4 decisions; the preview reported `visible:false` | `:58` | the preview did not show the board to the user; a 409 console message appeared when two viewers opened one session (task brief; cause not checked) |
-| The page shows in the user's browser (Brave) | `lavish-board-template-fix-report-20261013.md:10`, `:49`; `/tmp/lavish-boards/lifecycle-run2-log.md:3` (browser command exit 0) | only on the Mac; the iPhone cannot reach a loopback address (not tested). The template fix was checked in the T3 preview, not in Brave (`:49`) |
-| On 2026-10-14, a coordinator background Bash call of `wait` exited when the user pressed **Send & End**; the coordinator received a notification without polling | First test: kit `fc5ba7c`, throwaway board `/tmp/lavish-boards/bgtest-20261014`, `run_in_background: true`, `timeout: 7200000` | One live test; a full 7000-second deadline was not tested |
-| The v3 deck, list, mocks and seven-day sweep passed 26 unit tests and live checks | `.llm-wiki/reports/lavish-board-v3-build-report-20261014.md` | Live list check used the built file; no seven-day wall-clock wait |
-| The server kept running after the build worker ended | `/tmp/lavish-boards/lifecycle-run3-wait-log.md:2-4` (listener at 08:46:47Z); task brief | one run |
-| Answers came back verbatim: D1 `blue`, D2 `yes` | `/tmp/lavish-boards/lifecycle-run3-wait-log2.md:1-5` | two harmless decisions |
-| Two batches merge; the later answer wins | `lavish-board-install-report-20261013.md:75` | |
-| A queued answer survives a server stop and restart | `:63` | the 2.5 hour idle case was not run (`:78`) |
-| Telemetry off; the listener is on 127.0.0.1 only | `:55`, `:56` | no network-deny test; brief non-loopback connections not excluded (`:56`) |
-| Annotate starts off (`data-lavish-annotate="off"` on `<html>`); **Queue all chosen** is the last control; the **rec** badge has a gap | `lavish-board-template-fix-report-20261013.md:9-11`, `:35` | a person can turn Annotate on |
-| Not run: same-owner takeover, 20 kill/send races, the early link, a fallback run | `lavish-board-install-report-20261013.md:77`, `:80-82`, `:108` | |
+The board flow was tested on one machine, with the unit tests in `tests/test_lavish_board.py` and manual runs in T3 Code. Rules above hold only if the board flow is retested after a change.

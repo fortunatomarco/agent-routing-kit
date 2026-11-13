@@ -1,6 +1,7 @@
 # Coordinator guard
 
 Read when: you install, rebuild, test or change the restricted coordinator instance `claudeAgent_claude_coordinator` in T3 Code, or a hook denies a coordinator call. This folder is a Claude Code plugin; the kit's `delegation-t3.md` says how the coordinator behaves inside it.
+Reader: maintainer.
 
 ## What the instance allows
 
@@ -74,4 +75,4 @@ First run the synthetic check from the kit root: `python3 -I tests/test_guard.py
 - `grep`, `head`, `tail` and `ls` can read any path on the machine.
 - The delegation guard checks the delegation tools only. It does not stop a process the coordinator creates another way (for example a shell command that starts an agent), and it does not check the model, the runtime mode or other tools that start work. A target that names an unguarded instance with a restricted tool set is also allowed: the hook cannot see tool lists.
 - The guard fails closed on an unreadable payload; see Install step 1 for the missing-`python3` case.
-- Plugin loading by `--plugin-dir` with this folder shared by several projects is untested here: the origin project used one folder per project. Step 4 of Install, run from a second project, verifies it.
+- Plugin loading by `--plugin-dir` with this folder shared by several projects is untested here: one folder per project was used. Step 4 of Install, run from a second project, verifies it.

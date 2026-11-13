@@ -1,11 +1,12 @@
 # Communication rules
 
 Read when: a project has `.agent-routing/overlay.md` and you write text for a person or an agent. Use the language and STE level in the overlay's `Communication` section. Without an overlay, apply no kit rule.
+Reader: every session, workers included.
 
 ## Every reply
 
 - **Language:** follow the overlay. `english` means write all text the user reads in English. The language of the user's message is not a request. `user` means write in the language the user uses.
-- **Decisions on a selector:** put each decision on the environment's selector (`AskUserQuestion` in Claude Code and T3 Code) so the user picks without typing. Give short, distinct options. Mark the one the evidence favours as recommended, with a one-line reason. Exception: a project may put an important decision with two or more options on a decision board (`decision-boards.md`); the selector then stays for all other decisions and is the fallback.
+- **Decisions on a selector:** put each decision on the environment's selector (`AskUserQuestion` in Claude Code and T3 Code) so the user picks without typing. Give short, distinct options. Mark the one the evidence favours as recommended, with a one-line reason. Exception: a project may put an important decision with two or more options on a decision board (`decision-boards.md`); the selector then stays for all other decisions and is the fallback. A worker does not open a selector card in its own thread: it follows the return rule in its brief.
 - **Missing information or access:** name exactly what is missing and stop. Guess nothing and substitute nothing.
 - **Context files** hold durable facts only. A one-off tip stays in the reply.
 - **Agent-facing text** (briefs, prompts, `AGENTS.md`, `CLAUDE.md`, rule files, skills): write or revise it with the writing-for-agents skill when it is available; short routine briefs may skip it. Keep it plain, concise and task-focused.
@@ -29,7 +30,7 @@ Source key:
 - [E] https://asd-ste100.org/STE_downloads.html (ASD's own downloads page)
 - [F] the encyclopedia page "Simplified Technical English", a secondary source, read 2026-10-12 as page text (URL and verbatim quotes: `examples/ste-source-check.md`)
 
-Status `sourced` means an ASD page [A], [B], [D] or [E] states the rule. Status `sourced (secondary)` means only a secondary page ([C] or [F]) states it, and ASD's own text for it was not checked. Status `non verificato` means no page read states the rule. Count today: 8 sourced, 10 sourced (secondary), 0 non verificato.
+Status `sourced` means an ASD page [A], [B], [D] or [E] states the rule. Status `sourced (secondary)` means only a secondary page ([C] or [F]) states it, and ASD's own text for it was not checked. Status `unverified` means no page read states the rule. Count today: 8 sourced, 10 sourced (secondary), 0 unverified.
 
 | # | Rule | Source | Status |
 | --- | --- | --- | --- |
@@ -64,6 +65,8 @@ Rules 1 to 18 apply at level `100` to each in-scope English sentence. Apply all 
 
 ## STE scope and limits
 
+**Output style:** a project output-style file (`overlay.output-style`) wins over the writing levels for the documents it covers; the writing levels then apply to chat replies only.
+
 **Language.** ASD-STE100 is a controlled form of English with American spelling [A]. Rules 1 to 18 apply only to English text. The five kit writing rules can apply in the language set by the overlay.
 
 **In scope:** replies, reports, dashboards, selector text, status messages, and documents that the user reads.
@@ -81,7 +84,7 @@ At level `100`, `overlay.ste-exceptions` can add categories. Each added category
 
 **What level 100 means.** Level `100` applies rules 1 to 18 to every in-scope English sentence, with none skipped. It also applies the five kit writing rules above. The level name does not mean 100% of the standard or certified text:
 
-- The standard has 53 writing rules and a dictionary of about 900 approved words [B], [F]. The kit carries 18 rules. It does not carry the other 35, and their content is non verificato here.
+- The standard has 53 writing rules and a dictionary of about 900 approved words [B], [F]. The kit carries 18 rules. It does not carry the other 35, and their content is unverified here.
 - The approved dictionary (about 900 approved words and about 1200 not-approved words [B]) is part of ASD-STE100 Issue 9. ASD gives a free copy on request, as a PDF [A], [E]. This kit does not carry it, and [F] shows only four sample entries, not the list. The dictionary check is therefore not verified. An agent does not rebuild the list from memory.
 - With a copy of the standard at `overlay.ste-dictionary`, read it before writing, and apply rule 1 and the rules the kit does not carry against it.
 - Without a copy, apply rules 2 to 18, choose plain common words, and write "STE rules 1 to 18 applied, word list: not checked" in any document that claims a standard. Never write "STE-compliant".
@@ -93,6 +96,6 @@ At level `100`, `overlay.ste-exceptions` can add categories. Each added category
 - names of tools, products, models, services and commands;
 - domain terms and abbreviations of the project;
 - names of files, folders, documents and records the user knows;
-- the kit's own terms: route names (planner, Sol, Luna, Computer Use), closed, open, brief, gate, verifier, dispatcher. `policy.md` defines them.
+- the kit's own terms: route names (planner, Sol, Luna, Computer Use), closed, open, brief, gate, verifier, dispatcher. `GLOSSARY.md` gives the plain meaning of the kit terms; `briefs-review-escalation.md`, "Review" (items "Gate" and "Verifier"), holds the criteria for gate and verifier.
 
 Use a term from the glossary exactly as written. A term that is not in the glossary and not in the dictionary gets a one-sentence definition at first use.

@@ -1,6 +1,7 @@
 # Computer Use prompts
 
 Read when: you write a Computer Use prompt for Codex desktop automation (macOS). The approval step before delegation is in `delegation-t3.md`, "Coordinator discipline".
+Reader: coordinator.
 
 Every Computer Use prompt for Codex:
 

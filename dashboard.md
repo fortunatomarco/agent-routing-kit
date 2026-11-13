@@ -1,6 +1,7 @@
 # Coordinator dashboard
 
 Read when: a thread finishes important work, blocks, needs the user, yields a result others depend on, or changes the next steps; and when the user asks "status?" or "what next?".
+Reader: coordinator.
 
 The coordinator's conversation is the user's control tower: the user should never need to open a thread to learn its status, outcome or next step.
 

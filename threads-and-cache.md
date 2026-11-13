@@ -1,6 +1,7 @@
 # Threads and cache cost
 
 Read when: you reuse or start a thread, a thread has been idle, or a coordinator context grows long.
+Reader: coordinator.
 
 A prompt cache goes cold after about 60 idle minutes for Claude and 30 for OpenAI GPT-5.6 and later (Sol, Luna); a cold, long thread then re-reads its history at full price. A change of model or effort also empties a thread's cache, so a thread keeps its assigned model and effort. (`rationale-evidence.md` holds the evidence and its limits.)
 

@@ -1,6 +1,6 @@
 # Decision boards
 
-Read when: a project sends an important decision with two or more options to a board, or you build or wait on one. A board is a local page where the user picks an option for each decision and sends the answers. `tools/lavish_board.py` runs it on the installed `lavish-axi` tool, at the path the tool reports.
+Read when: a project sends an important decision with two or more options to a board, or you build or wait on one. A board is a local page where the user picks an option for each decision and sends the answers. `tools/lavish_board.py` runs it on the installed `lavish-axi` tool, at the path the tool reports. Set `LAVISH_AXI_BIN` to use a different install.
 Reader: coordinator.
 
 ## Rule

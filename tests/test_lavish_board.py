@@ -25,6 +25,16 @@ def sample():
 
 
 class BoardTests(unittest.TestCase):
+    def setUp(self):
+        board.ROOT.mkdir(parents=True, exist_ok=True)
+
+    def test_default_bin(self):
+        default = Path.home() / '.agent-tools/lavish-axi/node_modules/.bin/lavish-axi'
+        self.assertEqual(board._default_bin({}), default)
+        self.assertEqual(board._default_bin({'LAVISH_AXI_BIN': ''}), default)
+        self.assertEqual(board._default_bin({'LAVISH_AXI_BIN': '/opt/bin/lavish-axi'}),
+                         Path('/opt/bin/lavish-axi'))
+
     def test_sweep_selects_only_old_ended_boards_and_companions(self):
         with tempfile.TemporaryDirectory() as temp, mock.patch.object(board, 'ROOT', Path(temp)):
             root = Path(temp)

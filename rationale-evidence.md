@@ -1,6 +1,7 @@
 # Routing evidence: cache and prices
 
 Read when: you question a cache period, a thread-reuse rule or a cost comparison, or you update a price. `rationale.md` links here. Facts below were fetched or measured on the dates shown; prices and cache terms change, so re-fetch before you rely on them.
+Reader: maintainer.
 
 ## Cache
 
@@ -14,35 +15,62 @@ Read when: you question a cache period, a thread-reuse rule or a cost comparison
 Measurements in the origin project (T3 Code, 2026-10-09 and 2026-10-10; the reports are not carried):
 
 - Method: Claude Code session logs record, per request, `cache_creation.ephemeral_5m_input_tokens` and `ephemeral_1h_input_tokens`; sessions were mapped to T3 threads through the T3 database; usage numbers only, no conversation content.
-- Coordinator thread (instance `claudeAgent_claude_coordinator`, Sonnet 5.5): 4 sessions, 54 requests, 208,795 tokens written at 1 hour, 0 at 5 minutes. After gaps of 8.1 and 16.4 minutes it read 81,168 and 115,619 tokens and created 2,806 and 393.
-- T3 delegated workers (`delegate_task`, instance `claudeAgent`): 21 sessions (19 Sonnet 5.5, 2 Haiku 5.5), 259 requests, 1,441,279 tokens written at 1 hour, 0 at 5 minutes. They are separate top-level Claude sessions, not native subagents, so they get the main-conversation TTL. Probe on one Haiku 5.5 worker at xhigh: after a gap of 7 min 24 s the follow-up created 86 tokens and read 35,941, so the cache stayed warm.
-- Contrast: one native `Task` subagent wrote 63,548 tokens at 5 minutes and 0 at 1 hour, matching the official docs above.
-- Luna gap test (2026-10-10): one Codex worker, model gpt-6-luna, effort max, Standard tier per task configuration (the Codex log has no tier field; it records a plan type of edu). One shell sleep between two model requests, nothing else in the gap. First request after a gap of 25 s, 4, 6, 12, 25 and 35 minutes read 99.3, 96.7, 98.9, 98.1, 96.9 and 95.9 percent of the previous input prefix from the cache (above 90 percent counts as warm): no miss at any gap, so the claim of a cache miss after 5 minutes (seen on X) did not hold for this plan and run. Limits: one run, one account, interactive, longest gap 35 minutes, plan-usage state and Fast tier not tested.
+- Coordinator thread (instance `claudeAgent_claude_coordinator`, Sonnet 5.5): every cache write was at the 1-hour TTL and none at 5 minutes. After gaps of 8.1 and 16.4 minutes it read over 96 percent of its prefix from the cache and created little new cache.
+- T3 delegated workers (`delegate_task`, instance `claudeAgent`; Sonnet 5.5 and Haiku 5.5 sessions): every cache write was at the 1-hour TTL and none at 5 minutes. They are separate top-level Claude sessions, not native subagents, so they get the main-conversation TTL. Probe on one Haiku 5.5 worker at xhigh: after a gap of 7 min 24 s the follow-up created 86 tokens and read 35,941, so the cache stayed warm.
+- Contrast: one native `Task` subagent wrote only at 5 minutes and nothing at 1 hour, matching the official docs above.
+- Luna gap test (2026-10-10): one Codex worker, model gpt-6-luna, effort max, Standard tier per task configuration (the Codex log has no tier field). One shell sleep between two model requests, nothing else in the gap. First request after a gap of 25 s, 4, 6, 12, 25 and 35 minutes read 99.3, 96.7, 98.9, 98.1, 96.9 and 95.9 percent of the previous input prefix from the cache (above 90 percent counts as warm): no miss at any gap, so the claim of a cache miss after 5 minutes (seen on X) did not hold for this plan and run. Limits: one run, one account, interactive, longest gap 35 minutes, plan-usage state and Fast tier not tested.
 - Limits of the Claude measurement: the log field records the TTL requested at write time; the probe does not test the full hour, and a 65-minute test was not run; the warm-read probe covers Haiku only, and Sonnet workers have the write flag but no idle gap in their logs; the result holds within plan usage and may change when plan usage runs out or with API-key use.
 
 Result: the 60-minute figure is right for the Claude Code main conversation on a subscription within plan usage, and the 30-minute figure as an OpenAI minimum. Both are wrong for the Claude API default and for Claude native subagents. A T3 delegated worker counts as a main conversation (1 hour). Sol and API-key use on the OpenAI side are not measured. The owner chose to record this here only and leave `threads-and-cache.md` unchanged.
 
-**Would change if:** the owner's plan usage runs out; T3 changes how it starts Claude sessions; or a 65-minute test shows expiry before one hour.
+**Would change if:** plan usage runs out; T3 changes how it starts Claude sessions; or a 65-minute test shows expiry before one hour.
 
 ## Prices
 
-Prices per 1M tokens, fetched 2026-10-09. Sources: https://platform.claude.com/docs/en/about-claude/pricing and https://developers.openai.com/api/docs/pricing . The gpt-6.1-sol row comes from the OpenAI page as read by a research worker, which found it missing from the first fetch; its cache read price agrees with "0.05x on GPT-6.1 Sol" in the OpenAI prompt-caching guide.
+USD prices per 1M tokens, re-verified 2026-10-18 on official pages only. OpenAI rows use Standard processing for prompts up to 272K input tokens. Claude rows use standard global pricing. Source IDs below resolve to URLs and fetch dates; exact numerical quotes and locators are in the maintainer's working notes, which this repository does not carry.
 
 | Model | Input | Cache read | Cache write | Output |
 | --- | --- | --- | --- | --- |
-| Claude Sonnet 5.5 | $2 | $0.20 | $2.50 | $10 |
-| Claude Opus 5.5 | $4 | $0.20 | $5 | $20 |
-| Claude Haiku 5.5, prompt up to 100K | $0.10 | $0.01 | $0.125 (5 min) | $0.50 |
-| Claude Haiku 5.5, prompt above 100K | $0.50 | $0.05 | $0.625 (5 min) | $2.50 |
-| gpt-6-luna | $0.10 | $0.01 | $0.125 | $0.50 |
-| gpt-6-sol | $2.00 | $0.20 | $2.50 | $10.00 |
-| gpt-6-astra | $10 | $1 | $12.50 | $50 |
-| gpt-6.1-sol | $2.00 | $0.10 | not read | $10.00 |
-| gpt-5.6-sol | $4 | $0.40 | $5 | $20 |
-| gpt-5.6-terra | $2 | $0.20 | $2.50 | $12 |
-| gpt-5.6-luna | $0.20 | $0.02 | $0.25 | $1.20 |
+| Claude Sonnet 5.5 [A] | $2 | $0.10 | $2.50 (5 min); $4 (1 hour) | $10 |
+| Claude Opus 5.5 [A] | $4 | $0.20 | $5 (5 min); $8 (1 hour) | $20 |
+| Claude Haiku 5.5, prompt up to 100K [A, B] | $0.10 | $0.01 | $0.125 (5 min); $0.20 (1 hour) | $0.50 |
+| Claude Haiku 5.5, prompt above 100K [A, B] | $0.50 | $0.05 | $0.625 (5 min); $1 (1 hour) | $2.50 |
+| Claude Fable 5.1 [A] | $10 | $0.25 | $12.50 (5 min); $20 (1 hour) | $50 |
+| Claude Opus 5 [A] | $5 | $0.50 | $6.25 (5 min); $10 (1 hour) | $25 |
+| gpt-6-luna [F] | $0.10 | $0.01 | $0.125 | $0.50 |
+| gpt-6-sol [E] | $2.00 | $0.20 | $2.50 | $10.00 |
+| gpt-6-astra [G] | $10 | $1 | $12.50 | $50 |
+| gpt-6.1-sol [D] | $2.00 | $0.10 | $2.50 | $10.00 |
+| gpt-5.6-sol [C, H] | $4 | $0.40 | $5 | $20 |
+| gpt-5.6-terra [I] | $2 | $0.20 | $2.50 (derived from published 1.25x write multiplier) | $12 |
+| gpt-5.6-luna [J] | $0.20 | $0.02 | $0.25 (derived from published 1.25x write multiplier) | $1.20 |
 
-- The owner's Codex runs on a ChatGPT plan allowance (`auth_mode: chatgpt` in the Codex auth file, read 2026-10-09), not per token. Read the OpenAI rows as a relative comparison only.
-- The fast service tier costs 2x on the API and 2.5x of included plan usage in Codex.
-- Codex credits per 1M tokens (input, cached input, output): GPT-6 Luna 2.5, 0.25, 12.5; GPT-5.6 Luna 5, 0.5, 30; GPT-6 Sol 50, 5, 250 (https://learn.chatgpt.com/docs/pricing, read by a research worker on 2026-10-09). So gpt-6-luna costs half of gpt-5.6-luna on input and cached input, about 42% on output, and one twentieth of GPT-6 Sol on all three. Plan table, local messages per five-hour period on Plus and Standard Business: GPT-6 Luna "350-3,000", GPT-6 Sol "15-150". No page gives credits per task, so a cheaper token does not prove a cheaper task.
-- Quota readings do not choose routes (measurement.md, removed 2026-10-12).
+- Codex on a ChatGPT plan runs on a plan allowance, not per token. Read the OpenAI rows as a relative comparison only.
+- API modifiers: GPT-6.1 Sol, GPT-6 Sol, GPT-6 Luna and GPT-6 Astra charge 2x input and cache rates and 1.5x output for the full request above 272K input tokens [D-G]. The GPT-5.6 model pages state 2x input and 1.5x output above 272K [H-J]. Fast is 2x Standard for the GPT-6 models [D-G] and GPT-5.6 Sol [M]. An explicit Fast API multiplier for GPT-5.6 Terra or Luna is not published on https://developers.openai.com/api/docs/guides/fast-mode or their model pages checked. Batch and Flex are 50% lower than Standard for the GPT-6 models [D-G]. GPT-6.1 Sol Ultrafast is 6x Standard [D]. Regional processing adds a 10% premium where eligible [C, D-F]. GPT-6.1 Sol has a 1,050,000-token context window and 128,000 max output tokens [D].
+- Codex Fast uses 2.5x included subscription usage and 2x purchased credits or Enterprise pay-as-you-go usage, where supported [K, L]. This applies to supported GPT-6 models, including GPT-6.1 Sol and GPT-6 Sol; speed labels in the model catalog do not establish a billing multiplier. The Speed page also covers GPT-5.6 but does not individually enumerate Terra and Luna Fast availability. Ultrafast for GPT-6 Astra and GPT-6.1 Sol uses 8x included usage and 6x purchased credits [K, L].
+- Codex Standard credits per 1M tokens (input, cached input, output), fetched 2026-10-18 [K]: GPT-6 Astra 250, 25, 1,250; GPT-6.1 Sol 50, 2.5, 250; GPT-6 Sol 50, 5, 250; GPT-6 Luna 2.5, 0.25, 12.5; GPT-5.6 Sol 100, 10, 500; GPT-5.6 Terra 50, 5, 300; GPT-5.6 Luna 5, 0.5, 30. Codex credit billing has no separate cache-write charge. API-key use follows API pricing. Credit rates do not establish included subscription usage or task cost.
+- Plan allowance, estimated local messages per five-hour period, fetched 2026-10-18 [K]: Plus and Standard Business each list GPT-6 Astra 5-45, GPT-6.1 Sol 15-160, GPT-6 Sol 15-150, and GPT-6 Luna 350-3,000. These are estimates, not fixed message limits; local messages and cloud chats share usage, cloud tasks can consume more, and weekly limits may apply. Pro plans currently have no five-hour limit. Enterprise/Edu with flexible pricing have no fixed rate limits; without flexible pricing they use Plus per-seat limits for most features. Model-specific GPT-5.6 Sol, Terra and Luna allowance estimates, and numeric Free/Go estimates, are not published on https://learn.chatgpt.com/docs/pricing checked.
+- The Haiku 5.5 announcement's Pricing table confirms both prompt-length price bands [B]. Its Further updates section announces the Sonnet cache-read reduction.
+- Quota readings do not choose routes (the measurement file, removed 2026-10-12).
+
+### Corrections
+
+- Sonnet 5.5 cache read: the old table said $0.20, attributed to https://platform.claude.com/docs/en/about-claude/pricing (recorded fetch 2026-10-09; no historical page snapshot carried). That same official pricing URL now lists $0.10 [A]. The official announcement https://www.anthropic.com/claude-haiku-5-5 explicitly says "$0.10 per million tokens rather than $0.20" [B]. This corrects the old evidence; it does not prove what the page showed on the earlier fetch date.
+- GPT-6.1 Sol cache write was "not read"; the model page explicitly publishes $2.50 [D]. All other existing token table values were confirmed, with the two GPT-5.6 derived write values marked above. The Fast cost multipliers were confirmed; the credit multiplier and support caveats are now explicit.
+- The old blanket claim that no page gives credits per task was too broad: [K] gives an indicative range for GPT-5.6 Sol. Per-token prices still do not establish the cost of a task on another model.
+
+### Sources
+
+- [A] https://platform.claude.com/docs/en/about-claude/pricing - fetched 2026-10-18, Model pricing.
+- [B] https://www.anthropic.com/claude-haiku-5-5 - fetched 2026-10-18, Pricing; Further updates.
+- [C] https://developers.openai.com/api/docs/pricing - fetched 2026-10-18, Flagship models; Cyber models; regional processing note.
+- [D] https://developers.openai.com/api/docs/models/gpt-6.1-sol - fetched 2026-10-18, Pricing; context specifications.
+- [E] https://developers.openai.com/api/docs/models/gpt-6-sol - fetched 2026-10-18, Pricing.
+- [F] https://developers.openai.com/api/docs/models/gpt-6-luna - fetched 2026-10-18, Pricing.
+- [G] https://developers.openai.com/api/docs/models/gpt-6-astra - fetched 2026-10-18, Pricing.
+- [H] https://developers.openai.com/api/docs/models/gpt-5.6-sol - fetched 2026-10-18, Pricing.
+- [I] https://developers.openai.com/api/docs/models/gpt-5.6-terra - fetched 2026-10-18, Pricing.
+- [J] https://developers.openai.com/api/docs/models/gpt-5.6-luna - fetched 2026-10-18, Pricing.
+- [K] https://learn.chatgpt.com/docs/pricing - fetched 2026-10-18, Usage limits; Token rates.
+- [L] https://learn.chatgpt.com/docs/agent-configuration/speed - fetched 2026-10-18 through the official Speed link, Fast mode; Ultrafast mode.
+- [M] https://developers.openai.com/api/docs/guides/fast-mode - fetched 2026-10-18, How is Fast mode billed?

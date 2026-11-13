@@ -1,4 +1,4 @@
-# STE source check (round 1 evidence)
+# STE source check (first-pass evidence)
 
 Read when: you need to know what was verified for the rules in `communication.md`, and where. All pages were read on 2026-10-12 with `curl` and a text stripper; the pages are public.
 
@@ -23,9 +23,9 @@ Read when: you need to know what was verified for the rules in `communication.md
 | URL | Used for |
 | --- | --- |
 | https://clickhelp.com/clickhelp-technical-writing-blog/what-is-simplified-technical-english/ | 20 words in a procedural sentence and 25 in a descriptive sentence ("recommended maximum"), at most six sentences in a paragraph, at most three nouns in a row, one instruction or topic per sentence. A tool vendor's blog. Rules 9 to 12 in `communication.md` now also cite the Wikipedia page below. |
-| https://en.wikipedia.org/wiki/Simplified_Technical_English | Round 1 listed this page from a search result and did not read it in full. Round 2 read it in full: see "Round 2: Wikipedia check" below. |
+| https://en.wikipedia.org/wiki/Simplified_Technical_English | The first pass listed this page from a search result and did not read it in full. The second pass read it in full: see "Second pass: Wikipedia check" below. |
 
-## Round 2: Wikipedia check (2026-10-12)
+## Second pass: Wikipedia check (2026-10-12)
 
 Source: https://en.wikipedia.org/wiki/Simplified_Technical_English, a secondary source, key [F] in `communication.md`. Method: the full page text was fetched as wikitext (`action=raw`, 22,150 bytes) with `curl`, saved in a new folder outside the kit, and read in full. Each quote below is verbatim from that text. The wording of the table rules in `communication.md` was compared with the quote.
 
@@ -40,7 +40,7 @@ Caveats on the page:
 | --- | --- | --- | --- |
 | 9 | At most 20 words in a procedural sentence, 25 in a descriptive sentence | "Write short sentences: no more than 20 words in instructions (procedures) and 25 words in descriptive texts." | sourced (secondary) |
 | 10 | At most six sentences in a paragraph | "Do not write more than six sentences in each paragraph." | sourced (secondary) |
-| 11 | Multi-word noun limit | "Do not write multi-word nouns that have more than three words." | sourced (secondary); round 1 worded the rule "at most three nouns in a row", changed to the page's wording |
+| 11 | Multi-word noun limit | "Do not write multi-word nouns that have more than three words." | sourced (secondary); the first pass worded the rule "at most three nouns in a row", changed to the page's wording |
 | 12 | One instruction per sentence | "Write one instruction per sentence." | sourced (secondary) |
 | 13 | One topic per paragraph | "Write only one topic per paragraph." | sourced (secondary) |
 | 14 | Allowed verb forms | "Use the approved forms of the verb to make only:" then the bullets infinitive, imperative, simple present, simple past, simple future, "The past participle (only as an adjective)" | sourced (secondary) |
@@ -60,6 +60,6 @@ Result: 10 of 10 rules found on the page. The page does not state which rule num
 - "Although it was not initially intended for use as a general writing standard, it has been successfully adopted by other industries": supports the remark in `communication.md` that applying STE to every reply is a project choice.
 - ASD front-matter disclaimer quoted on the page: "Can STE be used alone? No." The page says STE needs other style guides and professional skill. The kit keeps the writing-for-agents skill for agent-facing text.
 
-## Count in `communication.md` (after round 2)
+## Count in `communication.md` (after the second pass)
 
-18 rules in the table: 8 `sourced` (rules 1 to 8, each on an ASD page), 10 `sourced (secondary)` (rules 9 to 18, each found on the page above; rules 9 to 12 also on the vendor blog), 0 `non verificato`. Round 1 count was 8 and 10. The limits section keeps these `non verificato` items: the dictionary content, the 35 writing rules the kit does not carry (53 in the standard, 18 in the kit), whether the kit may redistribute the standard. "Other languages" is closed by decision O1: the kit rule is English only.
+18 rules in the table: 8 `sourced` (rules 1 to 8, each on an ASD page), 10 `sourced (secondary)` (rules 9 to 18, each found on the page above; rules 9 to 12 also on the vendor blog), 0 `non verificato`. The first-pass count was 8 and 10. The limits section keeps these `non verificato` items: the dictionary content, the 35 writing rules the kit does not carry (53 in the standard, 18 in the kit), whether the kit may redistribute the standard. "Other languages" is closed by decision O1: the kit rule is English only.

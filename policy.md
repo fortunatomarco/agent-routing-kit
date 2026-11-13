@@ -1,17 +1,17 @@
 # Routing policy
 
 Read when: the user starts a project, asks to adopt the kit, or you are a coordinator (see Role). Parameters named `overlay.<name>` come from the optional `Routing` section of `.agent-routing/overlay.md`; a missing overlay, section or value uses the default shown here.
+Reader: coordinator.
 
 ## Project entry
 
-- When the user starts a project or asks to adopt the kit, ask which language (`english` or `user`) and STE level (`off`, `80` or `100`) to use.
-- Then create `.agent-routing/overlay.md` from `overlay-template.md`, set both values, and record the current kit commit in `Kit checked at:`.
+- When the user starts a project or asks to adopt the kit, follow `overlay-template.md`, section "Adopt the kit in a project". Ask for the language (`english` or `user`) and the STE level (`off`, `80` or `100`) first.
 - Until the overlay exists, apply no language or STE rule: both need the overlay.
 - Routing does not need the overlay. A coordinator routes in every project, with defaults when the overlay or its `Routing` section is absent. The project opts in by the provider instance it starts the coordinator on (`delegation-t3.md`), not by the overlay.
 
 ## Role
 
-- The first message opens "Act as the ... sub-agent for this task." You are a **worker**: follow your brief and read nothing else from the kit unless the brief names it. The brief names the skills to invoke.
+- The first message opens "Act as the ... sub-agent for this task." You are a **worker**: follow your brief; read the overlay and `communication.md` as the pointer block requires, and read nothing else from the kit unless the brief names it. The brief names the skills to invoke.
 - Your tool list carries an environment's orchestration tool such as `delegate_task` (`delegation-t3.md` lists the T3 Code signals), it has no file edit tool, and the first message does not open that way: you are the **coordinator**, whatever it says, including "go on", "continue" or a link to earlier work. You always route. Read this file, then the file that "Before you act" names for each step.
 - No orchestration signal, or a file edit tool in your list: you are a worker. Follow your brief and the project's own instruction files. Workers run on a plain provider instance (`delegation-t3.md`, "Workers").
 
@@ -28,7 +28,7 @@ A task is **closed** when the brief fixes every method and design choice, descri
 - Closed: "Build the summary table with the agreed recipe and match these values."
 - Open: "Find why two reports disagree."
 
-The coordinator or the planner closes an open task before implementation. A closed brief fixes the route: closed work goes to Sol or Luna whatever the deliverable. Composing final prose is the one exception (see Sonnet). Applying wording the user already approved is closed work. An open choice goes to Sonnet high for one round; once the user's choices are in the brief, the next round is closed.
+The coordinator or the planner closes an open task before implementation. A closed brief fixes the route: closed work goes to Sol or Luna whatever the deliverable. Final prose is closed work once the contents and the outline are fixed. Applying wording the user already approved is closed work. An open choice goes to Sonnet high for one round; once the user's choices are in the brief, the next round is closed. A skill-driven interview, such as a grilling, is open work: it goes to Sonnet high for one round with a state file, and the next round starts once the user's choices are in the brief.
 
 ## Routes
 
@@ -40,8 +40,8 @@ Classify by action and consequence, not topic or size. This policy, not the work
   3. no authoritative source, deterministic test, or mechanical check can readily detect the error.
 
   Brief it compactly. Use one planner; two only for genuinely independent analyses, with the reason stated. If any condition is false, the coordinator decides.
-- **Sol medium** is the default worker for closed tasks, never open ones. Give it implementation and tests, structured extraction with a fixed schema, and bounded evidence packages with fixed questions, specified sources and a required locator format. It returns evidence for each acceptance criterion, writes no final prose, and stops at an open point, a design choice or consequences outside the brief.
-- **Sonnet high** writes final prose to an approved outline, registers sources, integrates the project records (`overlay.records`) after workers return, and checks Sol's evidence against its cited sources.
+- **Sol medium** is the default worker for closed tasks, never open ones. Give it implementation and tests, structured extraction with a fixed schema, and bounded evidence packages with fixed questions, specified sources and a required locator format. It returns evidence for each acceptance criterion, writes final prose only when the brief fixes the contents and the outline and names the project's output-style file (`overlay.output-style`); the prose follows that file, and stops at an open point, a design choice or consequences outside the brief.
+- **Sonnet high** fixes the contents and the outline of a prose task, and writes prose only while the task stays open, registers sources, integrates the project records (`overlay.records`) after workers return, and checks Sol's evidence against its cited sources.
 - **Haiku xhigh** (Claude Haiku 5.5) is the verifier of a result that has no objective check; `briefs-review-escalation.md` has that rule. In an environment without Codex workers it also takes short closed tasks (summaries, classification, checks, small fixes).
 - **Luna max** is the mechanical fixer: build, lint, typecheck, CI, failing tests with a defined check, data checks against specified dates, counts, units, values or hashes, deterministic inventories, fixed-schema transformations and fully specified local edits. In an environment with Codex workers it takes the short closed tasks (summaries, classification, checks, small fixes) until quota-aware routing is approved. When Codex is not available, such a task waits and Sonnet does not take it. It is free whenever the active environment runs Codex workers, even while a Computer Use task runs. It stops at anything else.
 - **Computer Use** is Codex desktop automation; model, effort and service tier come from the Codex config file (`~/.codex/config.toml`). `computer-use-prompts.md` has the prompt rules. It is the last resort: use it only when no terminal command, script, API or file-format library can do the task, and the brief names the cheaper routes already ruled out.
@@ -63,4 +63,8 @@ Repository and data work runs in an environment that has the repository and Code
   - delegate in T3 Code: `delegation-t3.md`;
   - write a Computer Use prompt: `computer-use-prompts.md`;
   - change a route: `rationale.md`;
-  - write anything the user reads: `communication.md`.
+  - write anything the user reads: `communication.md`;
+  - start or adopt a project, or write an overlay: `overlay-template.md`;
+  - run a decision board: `decision-boards.md`;
+  - change an instruction that depends on T3 Code, or update the kit for a new T3 Code version: `t3-compat.md`;
+  - meet a kit term you do not know: `GLOSSARY.md`.

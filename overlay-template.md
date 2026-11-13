@@ -1,6 +1,7 @@
 # Project overlay template
 
 Read when: a project starts, adopts the kit, or needs its overlay values. Copy this file to `.agent-routing/overlay.md` in the project. Without that file, apply no language or STE rule; routing still applies with its defaults. Ask the user for the language and STE level before you create it.
+Reader: whoever adopts the kit in a project.
 
 The overlay holds project choices and facts. It does not copy kit rules. `Kit checked at:` records the last kit commit the project checked. It does not pin the project to that commit. The shared kit path makes new kit commits available to every adopting project.
 
@@ -26,6 +27,7 @@ Routing applies in every project (`policy.md`, "Role"). Add this section only to
 | Parameter | Used in | Default |
 | --- | --- | --- |
 | `overlay.stakes` | `policy.md`, planner condition 2 | the project's core design, scope or main deliverable |
+| `overlay.output-style` | `policy.md`, Sol route; `briefs-review-escalation.md`, inputs and verifier | none: path of the project's style file for text that a person reads |
 | `overlay.records` | `policy.md`, Sonnet route | none: name the records that Sonnet integrates after workers return (index, log, open questions, summaries) |
 | `overlay.gate` | `briefs-review-escalation.md`, Gate | none: only `git status --short` and the brief's acceptance command |
 | `overlay.environments` | `policy.md`, Where work runs | one environment that has the repository and Codex workers |
@@ -53,3 +55,11 @@ Kit checked at: <full kit commit hash>
 Update this line when the project checks a new kit commit.
 
 The project is adopted when `.agent-routing/overlay.md` has its Communication settings, the `Kit checked at:` line, and any routing parameters the project changes. Its instruction files have no duplicate kit rule that the environment can read from the kit. A hosted project that cannot read the kit keeps the rule copies it needs.
+
+## Adopt the kit in a project
+
+1. Install the global pointer from `GLOBAL-DELIVERY.md`, once per machine.
+2. When the user starts a project or asks to adopt the kit, ask which language and STE level to use. Then copy this file to `.agent-routing/overlay.md`, set both values, and record the kit commit in `Kit checked at:`.
+3. Without `.agent-routing/overlay.md`, apply no language or STE rule. Routing does not need the overlay: a coordinator reads `policy.md` and routes, with defaults when the overlay or its `Routing` section is absent (`policy.md`, "Role").
+4. For a project with a coordinator guard, add `.agent-routing/guard.json` (`guard/README.md`, "Project config").
+5. Start a new session in the project. Before its first reply, use a file read or file search tool to check whether `.agent-routing/overlay.md` exists, including for a short question. If it exists, read the overlay and `communication.md` before replying; read `policy.md` before routing work.

@@ -1,6 +1,7 @@
 # Coordinator guard
 
 Read when: you install, rebuild, test or change the restricted coordinator instance `claudeAgent_claude_coordinator` in T3 Code, or a hook denies a coordinator call. This folder is a Claude Code plugin; the kit's `delegation-t3.md` says how the coordinator behaves inside it.
+Reader: maintainer.
 
 ## What the instance allows
 

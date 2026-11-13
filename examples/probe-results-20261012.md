@@ -1,6 +1,6 @@
 # Probe results - 2026-10-12
 
-Read when: you need the measured facts on whether workers read and write the kit folder from another project, or you plan the round 3 test. This file lives in `examples/` because it records one machine and one session; `GLOBAL-DELIVERY.md`, "Access and sandbox", summarizes it.
+Read when: you need the measured facts on whether workers read and write the kit folder from another project, or you plan the access test. This file lives in `examples/` because it records one machine and one session; `GLOBAL-DELIVERY.md`, "Access and sandbox", summarizes it.
 
 ## Method
 
@@ -12,7 +12,7 @@ Read when: you need the measured facts on whether workers read and write the kit
 
 ## Results
 
-The first-round wording 'no prompt' is superseded by the table below: a worker cannot see a user approval.
+The earlier wording 'no prompt' is superseded by the table below: a worker cannot see a user approval.
 
 | Provider | Mode | Read kit | Write kit |
 | --- | --- | --- | --- |
@@ -35,7 +35,7 @@ The first-round wording 'no prompt' is superseded by the table below: a worker c
 - The cause of the Claude result is unexplained. This file offers no explanation.
 - One model per provider: gpt-6-luna and haiku-5-5.
 
-## Baseline, second and third round
+## Baseline and repeat runs
 
 | Provider | Mode | Samples | Read | Write | Request to the user |
 | --- | --- | ---: | --- | --- | --- |
@@ -52,7 +52,7 @@ Limits:
 
 - One to three samples per case.
 - Claude workers cannot see their permission mode.
-- The first-round thread modes were confirmed with `t3_thread_configuration`.
+- The thread modes of the first runs were confirmed with `t3_thread_configuration`.
 - The cause of the Claude results is unexplained.
 - A user approval is invisible to a worker.
 
@@ -60,4 +60,4 @@ Limits:
 
 - T3 maps Codex modes to a `readOnly`, `workspaceWrite` or `dangerFullAccess` sandbox and says providers enforce permissions differently: `research-t3-docs-20261012.md`, Q1 and Q2.
 - Firstmate states that its environment filter "is not a sandbox" and passes `--add-dir` for Claude workers: `research-firstmate-20261012.md`, F2 and F3.
-- Round 3 repeats the probe with two samples per case and adds approval-required: `GLOBAL-DELIVERY.md`, "Test protocol for round 3".
+- The test protocol repeats the probe with two samples per case and adds approval-required: `GLOBAL-DELIVERY.md`, "Test protocol".

@@ -1,6 +1,7 @@
 # Routing rationale
 
 Read when: you change a route's model, effort, threshold or service tier, or someone asks why a route exists. It holds reasons and evidence; the rules stay in `policy.md`. Cache evidence and prices are in `rationale-evidence.md`.
+Reader: maintainer.
 
 The reasons below come from the kit owner's origin project, stated 2026-10-09 and 2026-10-10 unless a line says otherwise. "The owner" is the person who decides routing for the kit. Evidence from the origin project that the kit does not carry (commit hashes, session logs, local reports, screenshots) is dropped; a claim that lost its source is marked "motivo non documentato".
 
@@ -27,28 +28,29 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 - **Why one planner:** motivo non documentato. Open.
 - **Would change if:** a measured block shows Opus high gives the same planning decision as xhigh (test in separate sessions, as the cost page says), or the planner is used often enough that its cost shows in the measurement log.
 
-### Sol: gpt-6-sol at medium, Standard service tier
+### Sol: gpt-6.1-sol at medium, Standard service tier
 
-- **Constraint:** closed tasks only: implementation and tests, fixed-schema extraction, bounded evidence packages. It writes no final prose and stops at an open point.
+- **Constraint:** closed tasks only: implementation and tests, fixed-schema extraction, bounded evidence packages. It writes final prose only when the brief fixes the contents and the outline and names the project's output-style file (`overlay.output-style`); the prose follows that file. It stops at an open point.
 - **Evidence:**
   - Effort history in the origin project: high, then xhigh, then medium. The rule text of the final change states: "Effort is a ceiling, not a floor: medium for a closed task, xhigh for an open one." Sol takes closed tasks, so medium.
   - model-config, `medium` on Claude models: "fits day-to-day engineering work with a clear scope". This covers Claude models only; no fetched text covers the Codex effort scale (effort review: "unverified").
-  - Prices: gpt-6-sol equals Sonnet 5.5 on list price (`rationale-evidence.md`, "Prices"). When Codex runs on a plan allowance, the OpenAI dollar figures compare models and do not bill.
+  - Prices: gpt-6.1-sol equals Sonnet 5.5 on input and output list prices; its cache read price is $0.10 per 1M tokens against $0.20 for gpt-6-sol, and its cache write price is $2.50 per 1M tokens; Sonnet 5.5's cache read is now also $0.10 per 1M (`rationale-evidence.md`, "Prices" and its Corrections note). When Codex runs on a plan allowance, the OpenAI dollar figures compare models and do not bill.
   - Evidence checking: the Sonnet coordinator checks Sol's evidence against the cited sources. The owner's reason: in the owner's view OpenAI models have poor judgment and tend to over-engineer, so a check by Sonnet reduces that friction.
-- **Standard service tier:** the fast tier costs 2x on the API and 2.5x of included plan usage in Codex. The owner's reason for Standard: this setup does not need speed. Speed comes from delegating micro tasks, each a small piece that closes quickly; the work is to put each task where it belongs.
+  - Model switch (owner's decision of 2026-10-18): Sol moved from gpt-6-sol to gpt-6.1-sol at the same medium effort and Standard tier; the owner got access to gpt-6.1-sol and asked for the switch. Reason beyond that: motivo non documentato. No benchmark or trial block compares the two on closed tasks. The medium effort history above was measured on gpt-6-sol; Codex says effort levels do not map exactly between model generations (Codex models page, quoted in the Luna entry), so the "Would change if" check applies to gpt-6.1-sol from now on. GPT-6.1 Sol has the same Standard credits as GPT-6 Sol on input and output (50 and 250 per 1M) and half the cached-input credits (2.5 against 5); its estimated local messages are 15-160 per five hours against 15-150 (Plus and Standard Business; `rationale-evidence.md`, Prices [K]).
+- **Standard service tier:** the fast tier costs 2x on the API and 2.5x of included plan usage in Codex (2x on purchased credits; where the model supports Fast; see `rationale-evidence.md`, Prices). The owner's reason for Standard: this setup does not need speed. Speed comes from delegating micro tasks, each a small piece that closes quickly; the work is to put each task where it belongs.
 - **Why Sol rather than a Claude model for closed work:** the owner's reason: the workflow leans heavily on Claude. To keep the Claude subscription from running out while the Codex subscription stays fully available, the work is split to cut Claude quota use or to raise use of OpenAI models.
-- **Why Sol returns no final prose:** motivo non documentato.
-- **Would change if:** pilot blocks show Sol medium failing the acceptance checks of closed tasks. Then raise one level at a time (tutorial: "adjust one level at a time"). Codex's scale is unverified, so measure before comparing it with Claude levels.
+- **Why Sol writes closed final prose:** owner's decision of 2026-10-18; saves Claude quota; controls are the output-style file in the brief, the Haiku verifier and the owner's review.
+- **Would change if:** trial blocks show Sol medium failing the acceptance checks of closed tasks. Then raise one level at a time (tutorial: "adjust one level at a time"). Codex's scale is unverified, so measure before comparing it with Claude levels. Sol prose repeatedly fails the style check or the owner's review.
 
 ### Sonnet 5.5 at high (coordinator, prose, integration)
 
-- **Constraint:** final prose, source registration, record integration, checking Sol's evidence, and the dispatcher role.
+- **Constraint:** fixes the contents and the outline of a prose task, and writes prose only while the task stays open; source registration, record integration, checking Sol's evidence, and the dispatcher role.
 - **Evidence:**
   - Effort: model-config, `high`: "Work where verification matters or edge cases are likely". The coordinator's reviews are work "you cannot quickly check yourself" (tutorial).
   - Effort history: coordinator Opus medium, then Sonnet xhigh, then Sonnet high. The owner's reason for xhigh to high: cost. The owner used the briefcase benchmark and the knowledge-work benchmark as a proxy for the cost of Sonnet 5.5, and the extra intelligence was not backed by the cost increase: in long sessions the cost of Sonnet 5.5 at xhigh skyrocketed. The effort review judged the step consistent with the tutorial ("Do not leave the effort on max") and the cost page ("Below the model's ceiling, the highest effort levels pay for depth the task never uses").
   - Why Sonnet and not Opus as coordinator: the price reason, confirmed by the owner: Sonnet 5.5 costs half of Opus 5.5 on input and output (`rationale-evidence.md`, "Prices") and the coordinator thread is long. Opus stays in the lineup in case Sonnet falls short of the judgment and intelligence the task needs.
   - Dispatcher role: the owner observed that a coordinator without the role still did worker tasks. The role was tightened once; `guard/README.md` enforces it by tool restriction. Why it holds no work: its context lasts the whole project.
-  - Cost of a long coordinator thread: cache reads are $0.20 per 1M, so a 200k-token context costs $0.04 per turn.
+  - Cost of a long coordinator thread: Sonnet 5.5 cache reads are $0.10 per 1M, so a 200k-token context costs $0.02 per turn (`rationale-evidence.md`, "Prices").
   - Keep one effort per thread: the cost page, section "What breaks the cache", says "Changing `effort` or the thinking configuration between requests invalidates the cache from that point onward". This is why `threads-and-cache.md` says a thread keeps its assigned model and effort.
 - **Would change if:** a test of brief quality at `medium` and at `high` shows no loss (open question in the effort review); one route cannot split dispatch from prose without a second row. Test each level in a separate session, so the cache break does not distort the result (cost page, "Tune effort").
 
@@ -63,7 +65,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
   - Verifier gets the brief, the diff and the cited sources, never the worker's reasoning; it adds no criterion of its own. The owner confirmed the reasons: the worker's reasoning would bias the verdict, and extra criteria would grow the scope beyond the user's request.
   - Short tasks: in an environment with Codex workers they go to Luna only (owner's decision 2026-10-10, see "Rules shared by all routes"); Haiku takes them where Codex is absent.
 - **Decision of 2026-10-09: no change.** The effort review proposed Haiku high: the tutorial says to adjust down for simple tasks, and over-high effort gives "identifying more tasks than you actually assigned", which the verifier rule forbids. The review has no measurement behind it. The verifier role justifies xhigh, and a single route stays simpler than two.
-- **Would change if:** a pilot test runs the same verification at `high` and at `xhigh` and counts false failures that add criteria. A higher count at xhigh moves the route to high in `policy.md` and `delegation-t3.md`.
+- **Would change if:** a trial test runs the same verification at `high` and at `xhigh` and counts false failures that add criteria. A higher count at xhigh moves the route to high in `policy.md` and `delegation-t3.md`.
 
 ### Luna: gpt-6-luna at max, Standard service tier
 
@@ -87,7 +89,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
   - Kept: the Computer Use route, its config-file source and its approval step. Two Computer Use tasks on the same app stay a risk, per the page above, though no rule states it.
   - Would change if (priority rule): Computer Use runs show interference when a Luna worker runs alongside, either an observed case or a concurrency A/B (the same Computer Use task 5 times alone and 5 times beside a Luna worker, comparing success, steps and duration), or the owner measures that concurrent Luna runs drain the plan allowance.
 - **Decision of 2026-10-09: no change.** Luna stays at max until measured. No work block existed in the origin measurement log, so no measured cost or quality exists for any effort.
-- **Would change if (max):** pilot blocks show Luna at max overthinking: work beyond the whitelist, or high plan usage for a mechanical task. Then try medium and step lower one level at a time, with the escalation to Sonnet high as the safety net.
+- **Would change if (max):** trial blocks show Luna at max overthinking: work beyond the whitelist, or high plan usage for a mechanical task. Then try medium and step lower one level at a time, with the escalation to Sonnet high as the safety net.
 
 ### Computer Use: Codex desktop automation
 
@@ -100,7 +102,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 
 ## Rules shared by all routes
 
-- **Closed briefs determine the route (owner's decision of 2026-10-10).** Reason: routing followed deliverable type, although the briefs fixed the outcome and acceptance check. The Claude subscription is the scarce one (see "Why Sol rather than a Claude model for closed work"). Evidence: the owner audited one coordinator thread and found closed tasks routed to Sonnet high; the coordinator admitted the misrouting. The audit numbers are not carried: motivo non documentato for the exact counts. Sol and Luna capability tests on 2026-10-10 both rendered to PNG and viewed images, with verdict FULL (local notes, not carried). A visual check does not determine the model route. **Would change if:** pilot blocks show Sol or Luna failing the acceptance checks of closed tasks.
+- **Closed briefs determine the route (owner's decision of 2026-10-10).** Reason: routing followed deliverable type, although the briefs fixed the outcome and acceptance check. The Claude subscription is the scarce one (see "Why Sol rather than a Claude model for closed work"). Evidence: the owner audited one coordinator thread and found closed tasks routed to Sonnet high; the coordinator admitted the misrouting. The audit numbers are not carried: motivo non documentato for the exact counts. Sol and Luna capability tests on 2026-10-10 both rendered to PNG and viewed images, with verdict FULL (local notes, not carried). A visual check does not determine the model route. **Would change if:** trial blocks show Sol or Luna failing the acceptance checks of closed tasks.
 - **No stall when nothing is awaited (owner's decision of 2026-10-10).** Reason, in the owner's words: not stalling when nothing is awaited must be a general rule of the workflow, not only a personal memory note. Evidence: in an analysis thread, after the last dependency had finished, the coordinator kept a drafted rule change pending and ended its turn waiting for an approval the owner had already implied. Nothing blocked the next step, and the owner had to ask "are we waiting for something?" before work resumed. The rule sits in `policy.md`, "Coordinator", because every delegating session reads it. **Would change if:** motivo non documentato (the owner gave no condition). Inference, not sourced: a coordinator acts on a decision that was truly the owner's, which makes the list of their decisions too narrow; or stalls recur with the rule in place.
 - **Short closed tasks go to Luna (owner's decision of 2026-10-10).** Reason, in the owner's words (translated): without quota-aware model routing, for now short closed tasks are done only by Luna, until enough data exists from the test running with quota-axi. Evidence: before this decision, Luna was free whenever the Codex environment was active; independent work may run in parallel with disjoint write sets and separate acceptance checks; the owner asked why Luna should be unavailable, since the only case seen is the Codex quota running out, and two Luna workers can run at once. Clarified the same day: in an environment without Codex, the equivalent Claude model of the same level takes them, so Haiku; with the Codex quota finished, the task waits, left open until quota-aware routing exists. **Would change if:** quota-axi samples cover at least 14 days, including the Claude and Codex weekly resets, so quota-aware routing can be designed and the owner approves it; the held case (Codex quota finished) is then reopened.
 - **Short returns.** Each brief fixes a report file and a final message of at most 150 words. Reasons: coordinator context grows from worker output. Cost page, "Set budgets and output caps": "Output tokens cost five times input tokens on Claude Sonnet 5, and in an agent loop every token the model writes comes back as input on every later turn". The same section measured a one-line answer at 39% fewer output tokens and 14% lower cost per run, with accuracy "within run-to-run noise". The measurement is not about subagent returns.
@@ -108,6 +110,9 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 - **Rotation at 300k tokens.** `autoCompactWindow` is 300,000 tokens, set by the owner; their reason: it "keeps long sessions out of the low-quality part of a full context". The coordinator hands off at that point (moved from 100k to 300k). The owner's reason: staying out of the zone where, according to engineers the owner trusts, model quality degrades, around 300k to 400k tokens. It rests on third-party opinion; no source was read for it. A handoff beats compaction: no source was found for this as a cost-page finding; the page reports that a compaction request wrote an 81,000-token context to the cache instead of reading it, costing $0.21 against $0.04 for the same pass (cost page, measurement 18). Whether the claim "handoff beats compaction" came from another source: open.
 - **Verification chain** (gate, verifier, review): the owner's reason: workers can report a passed check that did not pass, and OpenAI models over-engineer (see the Sol entry), so something independent of the worker checks the result. The verifier's xhigh has its own reason in the Haiku entry.
 - **No Sonnet fallback for closed tasks when Codex is not available (owner's decision of 2026-10-10).** Reason, in the owner's words (translated): remove it; without quota-aware routing there is no use for it; keep it at most for when it exists. Evidence: the removed clause disagreed with the hold rule in `briefs-review-escalation.md` ("hold the task") and with the decision that closed work waits when Codex is exhausted (`policy.md`, Luna). The owner allows keeping the clause for when quota-aware routing exists. **Would change if:** quota-aware routing is designed and the owner approves it.
+- Code tasks run one at a time by default (decided 2026-10-23). Each has its own worktree and ends in one pull request per feature; parallel code tasks start only when the user asks. Reason: subscription plans can hit their usage limits during parallel work, and parallel sessions draw on the same quota. Isolation and the pull request cost little; parallelism is what burns the quota. Revisit if the plans change.
+
+- Handoff work is committed locally before a new chat (decided 2026-10-25). The owner asked for a standing rule so that the request need not be repeated each time. Reason: a new chat's worktree holds only committed files, so the uncommitted handoff and rule edits were invisible to the new chat. The worker commits every changed and new file the new chat needs, including rules, reports and the handoff, and gives full file paths. Push and merge stay the user's decision. Before a push, check `examples/` for private data because the kit repository is public. Alternative not taken: commit only when asked, which makes the user repeat the request each time. Rule: `delegation-t3.md`, "Coordinator discipline".
 
 ## Decisions not taken
 
@@ -115,18 +120,27 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 - **Luna from max to medium.** Not taken on 2026-10-09: the principle supports it, the Codex effect is unverified, and no measurement exists. Condition to revisit: see the Luna entry.
 - **Haiku from xhigh to high.** Not taken on 2026-10-09: the verifier role justifies xhigh. Condition to revisit: see the Haiku entry.
 - **Coordinator at medium for pure dispatch.** Not taken: untested, and one route cannot split dispatch from prose (effort review).
-- **Automatic quota-aware routing.** Not adopted. The owner must separately approve reconsideration (measurement.md, removed 2026-10-12). Quota percentages from different providers are not interchangeable. A third-party resolver that sends the brief to an external classifier API and ranks candidates by quota did not fit (source report not carried: motivo non documentato beyond this summary).
-  - The owner's reason for a fixed policy now: the quota-axi tool is installed, and the routing should already monitor quota spending; the removed pilot procedure recorded quota spending (measurement.md, removed 2026-10-12). The owner's direction: quota-aware routing later, where the choice of provider reacts to the quota available and to the days left until the quota refreshes.
-  - Open direction, not a rule. The pilot data is the input for that decision. Whether quota-axi reports the days to the refresh was not checked.
+- **Automatic quota-aware routing.** Not adopted. The owner must separately approve reconsideration (the measurement file, removed 2026-10-12). Quota percentages from different providers are not interchangeable. A third-party resolver that sends the brief to an external classifier API and ranks candidates by quota did not fit (source report not carried: motivo non documentato beyond this summary).
+  - The owner's reason for a fixed policy now: the quota-axi tool is installed, and the routing should already monitor quota spending; the removed trial procedure recorded quota spending (the measurement file, removed 2026-10-12). The owner's direction: quota-aware routing later, where the choice of provider reacts to the quota available and to the days left until the quota refreshes.
+  - Open direction, not a rule. The trial data is the input for that decision. Whether quota-axi reports the days to the refresh was not checked.
 - **Removing the coordinator's tools by prose alone.** Replaced by the restricted instance (`guard/README.md`). The origin research found the mechanism (a second Claude provider instance with `launchArgs` set to `--disallowedTools ...`) and the origin project later ran it end to end.
 - **Persistent sub-coordinators and deeper nesting.** Not adopted: nesting stops at two levels (`delegation-t3.md`); a third-party framework's "command structure stays flat" agrees (source report not carried).
+
+### Worker policy: sandbox not adopted and sources (moved from delegation-t3.md)
+
+6. **Not adopted: the Claude native sandbox.** It covers Bash only, and Write and Edit follow permission rules. A `--settings` entry in `launchArgs` is probably overwritten by T3. It needs a per-instance config folder and a test first. Codex `auto` mode is no substitute: it stalls on any permission prompt, and once stuck it cannot be stopped from outside (2026-10-12: a Codex worker in `auto` waited 40 minutes on a Computer Use approval and ignored Stop).
+
+Sources:
+
+- Firstmate, commit `a1ecefb` as recorded in `examples/research-firstmate-20261012.md`, F3: workers launched with approvals and sandbox bypassed, one clean worktree per task, and "This is not a sandbox". The brief rules in item 2 are the kit's own choice; that file does not record Firstmate's brief rules.
+- The stalled Codex worker above: observed by the user on 2026-10-12, not recorded in a kit file.
 
 ## Open reasons
 
 Each item is a reason the origin history does not state. Reply with the reason, or "no reason"; the entry is then updated.
 
 1. Why one planner (Planner entry). Open.
-2. Why Sol returns no final prose (Sol entry). Open.
+2. Why Sol writes closed final prose (Sol entry). Answered by the owner's decision of 2026-10-18.
 3. Why Haiku and the verifier merged into one route. Open; the owner does not remember.
 4. Codex effort scale against the benchmark's effort scale (Luna entry). Open.
 5. Where the 60-minute and 30-minute cache figures came from (`rationale-evidence.md`, "Cache"). Open.

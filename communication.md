@@ -30,7 +30,7 @@ Source key:
 - [E] https://asd-ste100.org/STE_downloads.html (ASD's own downloads page)
 - [F] the encyclopedia page "Simplified Technical English", a secondary source, read 2026-10-12 as page text (URL and verbatim quotes: `examples/ste-source-check.md`)
 
-Status `sourced` means an ASD page [A], [B], [D] or [E] states the rule. Status `sourced (secondary)` means only a secondary page ([C] or [F]) states it, and ASD's own text for it was not checked. Status `non verificato` means no page read states the rule. Count today: 8 sourced, 10 sourced (secondary), 0 non verificato.
+Status `sourced` means an ASD page [A], [B], [D] or [E] states the rule. Status `sourced (secondary)` means only a secondary page ([C] or [F]) states it, and ASD's own text for it was not checked. Status `unverified` means no page read states the rule. Count today: 8 sourced, 10 sourced (secondary), 0 unverified.
 
 | # | Rule | Source | Status |
 | --- | --- | --- | --- |
@@ -84,7 +84,7 @@ At level `100`, `overlay.ste-exceptions` can add categories. Each added category
 
 **What level 100 means.** Level `100` applies rules 1 to 18 to every in-scope English sentence, with none skipped. It also applies the five kit writing rules above. The level name does not mean 100% of the standard or certified text:
 
-- The standard has 53 writing rules and a dictionary of about 900 approved words [B], [F]. The kit carries 18 rules. It does not carry the other 35, and their content is non verificato here.
+- The standard has 53 writing rules and a dictionary of about 900 approved words [B], [F]. The kit carries 18 rules. It does not carry the other 35, and their content is unverified here.
 - The approved dictionary (about 900 approved words and about 1200 not-approved words [B]) is part of ASD-STE100 Issue 9. ASD gives a free copy on request, as a PDF [A], [E]. This kit does not carry it, and [F] shows only four sample entries, not the list. The dictionary check is therefore not verified. An agent does not rebuild the list from memory.
 - With a copy of the standard at `overlay.ste-dictionary`, read it before writing, and apply rule 1 and the rules the kit does not carry against it.
 - Without a copy, apply rules 2 to 18, choose plain common words, and write "STE rules 1 to 18 applied, word list: not checked" in any document that claims a standard. Never write "STE-compliant".

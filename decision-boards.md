@@ -1,6 +1,6 @@
 # Decision boards
 
-Read when: a project sends an important decision with two or more options to a board, or you build or wait on one. A board is a local page where the user picks an option for each decision and sends the answers. `tools/lavish_board.py` runs it on a pinned `lavish-axi` 0.1.87 install in `~/.agent-tools/lavish-axi/`.
+Read when: a project sends an important decision with two or more options to a board, or you build or wait on one. A board is a local page where the user picks an option for each decision and sends the answers. `tools/lavish_board.py` runs it on the installed `lavish-axi` tool, at the path the tool reports.
 Reader: coordinator.
 
 ## Rule
@@ -88,4 +88,4 @@ The build worker can revise an open board with `python3 -B <kit>/tools/lavish_bo
 
 ## Limits
 
-The board flow was tested on one machine, with the unit tests in `tests/test_lavish_board.py` and manual runs in T3 Code. The failure cases above name what was not tested. Rules above hold only if the board flow is retested after a change.
+The board flow was tested on one machine, with the unit tests in `tests/test_lavish_board.py` and manual runs in T3 Code. Real sends were not tested. Rules above hold only if the board flow is retested after a change.

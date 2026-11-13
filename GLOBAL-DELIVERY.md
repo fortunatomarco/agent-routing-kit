@@ -31,7 +31,7 @@ Rules for the block:
 
 The pointer lines send an agent to a folder outside its project. This section records what the providers allow there.
 
-**Probe, measured 2026-10-12** from a project outside the kit. Thread runtime modes were confirmed with `t3_thread_configuration`.
+**Probe in the tested setup** from a project outside the kit. Thread runtime modes were confirmed with `t3_thread_configuration`.
 
 | Provider | Mode | Samples | Read | Write | Request to the user |
 | --- | --- | ---: | --- | --- | --- |
@@ -44,7 +44,7 @@ The pointer lines send an agent to a folder outside its project. This section re
 | Claude (haiku-5-5) | approval-required | 2 | ok | ok in both | unknown: same reason |
 | Claude (haiku-5-5) | full-access | 1 | ok | ok | none |
 
-The Claude workers saw only the project folder and `~/.t3/userdata/attachments` as working directories. `~/.claude/settings.json` holds no permission rules. Full record: `examples/probe-results-20261012.md`.
+In the tested setup the Claude workers saw only the project folder and the T3 attachments folder, and no Claude permission rule was set. Full record: `examples/probe-results-20261012.md`.
 
 **What it shows.**
 
@@ -81,7 +81,7 @@ Apply in this order. The first item protects against every provider; the second 
    chmod -R u+w <kit path>
    ```
 
-   Tested on a temporary copy on 2026-10-12: an append and a new file were refused, and `python3 -I tests/test_guard.py` printed `37/37 passed` with the copy locked. Limit: a process of the same user can run `chmod`, so the lock stops an accidental write and not a deliberate unlock.
+   Tested on a temporary copy: an append and a new file were refused, and `python3 -I tests/test_guard.py` printed `37/37 passed` with the copy locked. Limit: a process of the same user can run `chmod`, so the lock stops an accidental write and not a deliberate unlock.
 
 2. **Claude Code deny rule for Edit and Write on the kit path.** Untested. Draft rule for the `permissions.deny` list of the Claude settings:
 
@@ -89,7 +89,7 @@ Apply in this order. The first item protects against every provider; the second 
    {"permissions": {"deny": ["Edit(<kit path>/**)", "Write(<kit path>/**)"]}}
    ```
 
-   The path syntax of the rule, and whether an `Edit` rule also covers `Write`, are non verificato: check them in the Claude Code settings documentation before you rely on the rule. A deny rule does not cover Bash commands such as `sed -i`; the lock in item 1 does. If `~/.claude/settings.json` is a link (section 1), edit its source.
+   The path syntax of the rule, and whether an `Edit` rule also covers `Write`, are unverified: check them in the Claude Code settings documentation before you rely on the rule. A deny rule does not cover Bash commands such as `sed -i`; the lock in item 1 does. If `~/.claude/settings.json` is a link (section 1), edit its source.
 
 Codex needs neither item to stay read-only in the two modes probed. Add the lock anyway: item 1 is provider-independent.
 
@@ -107,7 +107,7 @@ The probe read the kit without this flag in two modes, so the flag may matter on
 
 The coordinator read guard denies `Read`, `Grep` and `Glob` on a file above 64 KiB (65,536 bytes) outside the project (`guard/hooks/coordinator-read-guard.py`, `MAX_EXTERNAL_BYTES`). The kit folder is outside every adopting project, so the limit applies to kit reads.
 
-`wc -c` on the kit root's Markdown files (2026-10-23): the largest is `rationale.md` at 28,201 bytes (27.5 KiB). It fits, with 37,335 bytes to spare. No kit root file is near the limit. Re-run `wc -c *.md examples/*.md guard/README.md` after any large edit.
+`wc -c` on the tested kit root's Markdown files: the largest is `rationale.md` at 28,201 bytes (27.5 KiB). It fits, with 37,335 bytes to spare. No kit root file is near the limit. Re-run `wc -c *.md examples/*.md guard/README.md` after any large edit.
 
 ## 6. Guard plugin in T3 Code
 

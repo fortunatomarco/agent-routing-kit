@@ -1,14 +1,14 @@
-# Probe results - 2026-10-12
+# Probe results
 
-Read when: you need the measured facts on whether workers read and write the kit folder from another project, or you plan the access test. This file lives in `examples/` because it records one machine and one session; `GLOBAL-DELIVERY.md`, "Access and sandbox", summarizes it.
+Read when: you need the measured facts on whether workers read and write the kit folder from another project, or you plan the access test. This file lives in `examples/` because it records a tested setup; `GLOBAL-DELIVERY.md`, "Access and sandbox", summarizes it.
 
 ## Method
 
 - Four worker threads were started from a project outside the kit folder, one per provider and mode.
 - Each worker tried to read a kit file and to write in the kit folder.
 - Thread runtime modes were confirmed with `t3_thread_configuration`: `runtimeMode` matched the requested mode for the three threads checked. The thread ids were not in the brief for this round; the fourth thread was not checked.
-- The Claude workers saw only the project folder and `~/.t3/userdata/attachments` as working directories.
-- `~/.claude/settings.json` holds no permission rules.
+- In the tested setup the Claude workers saw only the project folder and the T3 attachments folder as working directories.
+- No Claude permission rule was set in the tested setup.
 
 ## Results
 
@@ -41,10 +41,10 @@ The earlier wording 'no prompt' is superseded by the table below: a worker canno
 | --- | --- | ---: | --- | --- | --- |
 | Codex (gpt-6-luna) | auto-accept-edits | 2 | ok | denied both: `zsh:1: operation not permitted` (sandbox) | none |
 | Codex (gpt-6-luna) | auto | 2 | ok | denied both: same error (sandbox) | none |
-| Codex (gpt-6-luna) | approval-required | 1 usable | ok | ok | yes, inferred: the worker reported sandbox_mode read-only and approval_policy unless-trusted, and its write succeeded, so the user approved an escalation; the user reported approving 2 requests |
+| Codex (gpt-6-luna) | approval-required | 1 usable | ok | ok | yes, inferred: the worker reported sandbox_mode read-only and approval_policy unless-trusted, and its write succeeded; 2 requests were recorded |
 | Codex (gpt-6-luna) | full-access | 1 | ok | ok | none; mode shown as danger-full-access |
-| Claude (haiku-5-5) | auto | 3 | ok | ok in all 3 | none shown in the third sample (the user was told to deny writes; no refusal came); none reported in the first two |
-| Claude (haiku-5-5) | auto-accept-edits | 3 | ok | ok in all 3 | unknown: a worker cannot see an approval and the user did not record approvals per call |
+| Claude (haiku-5-5) | auto | 3 | ok | ok in all 3 | none shown in the third sample; no refusal came; none reported in the first two |
+| Claude (haiku-5-5) | auto-accept-edits | 3 | ok | ok in all 3 | unknown: a worker cannot see an approval and approvals were not recorded per call |
 | Claude (haiku-5-5) | approval-required | 2 | ok | ok in both | unknown: same reason |
 | Claude (haiku-5-5) | full-access | 1 | ok | ok | none |
 

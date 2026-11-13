@@ -13,10 +13,10 @@ Read when: you need to know what was verified for the rules in `communication.md
 
 ## Not obtained
 
-- The text of ASD-STE100 Issue 9 itself, and its dictionary: only available by request form. Not read. Everything about the exact wording of the 53 rules and about dictionary entries is non verificato.
+- The text of ASD-STE100 Issue 9 itself, and its dictionary: only available by request form. Not read. Everything about the exact wording of the 53 rules and about dictionary entries is unverified.
 - The Issue 7 PDF named by a secondary page (`robertobertuol.com/.../ASD-STE100-ISSUE-7.pdf`) returned an HTML page, not a PDF. Not used.
-- Any ASD statement on languages other than English: none found on the About, FAQ or Downloads pages (non verificato).
-- Whether the kit may redistribute the standard: non verificato; ASD owns the copyright.
+- Any ASD statement on languages other than English: none found on the About, FAQ or Downloads pages (unverified).
+- Whether the kit may redistribute the standard: unverified; ASD owns the copyright.
 
 ## Secondary sources
 
@@ -62,4 +62,4 @@ Result: 10 of 10 rules found on the page. The page does not state which rule num
 
 ## Count in `communication.md` (after the second pass)
 
-18 rules in the table: 8 `sourced` (rules 1 to 8, each on an ASD page), 10 `sourced (secondary)` (rules 9 to 18, each found on the page above; rules 9 to 12 also on the vendor blog), 0 `non verificato`. The first-pass count was 8 and 10. The limits section keeps these `non verificato` items: the dictionary content, the 35 writing rules the kit does not carry (53 in the standard, 18 in the kit), whether the kit may redistribute the standard. "Other languages" is closed by decision O1: the kit rule is English only.
+18 rules in the table: 8 `sourced` (rules 1 to 8, each on an ASD page), 10 `sourced (secondary)` (rules 9 to 18, each found on the page above; rules 9 to 12 also on the vendor blog), 0 `unverified`. The first-pass count was 8 and 10. The limits section keeps these `unverified` items: the dictionary content, the 35 writing rules the kit does not carry (53 in the standard, 18 in the kit), whether the kit may redistribute the standard. "Other languages" is closed by an earlier decision to use English only: the kit rule is English only.

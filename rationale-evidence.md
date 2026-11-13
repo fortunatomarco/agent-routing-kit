@@ -27,7 +27,7 @@ Result: the 60-minute figure is right for the Claude Code main conversation on a
 
 ## Prices
 
-USD prices per 1M tokens, re-verified 2026-10-18 on official pages only. OpenAI rows use Standard processing for prompts up to 272K input tokens. Claude rows use standard global pricing. Source IDs below resolve to URLs and fetch dates; exact numerical quotes and locators are in the maintainer's working notes, which this repository does not carry.
+USD prices per 1M tokens, re-verified 2026-10-18 on official pages only. OpenAI rows use Standard processing for prompts up to 272K input tokens. Claude rows use standard global pricing. Source IDs below resolve to URLs and fetch dates.
 
 | Model | Input | Cache read | Cache write | Output |
 | --- | --- | --- | --- | --- |

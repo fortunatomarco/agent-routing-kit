@@ -3,7 +3,7 @@
 Read when: you change a route's model, effort, threshold or service tier, or someone asks why a route exists. It holds reasons and evidence; the rules stay in `policy.md`. Cache evidence and prices are in `rationale-evidence.md`.
 Reader: maintainer.
 
-The reasons below come from the maintainer's own use of the kit, recorded when each decision was taken. Evidence from the origin project that the kit does not carry (commit hashes, session logs, local reports, screenshots) is dropped; a claim that lost its source is marked "reason not documented".
+The reasons below come from the maintainer's own use of the kit, recorded when each decision was taken. A claim that lost its source is marked "reason not documented".
 
 ## How to use
 
@@ -12,7 +12,7 @@ The reasons below come from the maintainer's own use of the kit, recorded when e
 3. After the change, edit the route entry here: add the reason and the evidence. A reason you cannot source is written "reason not documented", never guessed.
 4. Evidence kinds: a URL, a kit file, a measured block in `overlay.measurement-log` (measure first, cite after).
 
-Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-right-effort-level-in-claude-code ; "model-config" is https://code.claude.com/docs/en/model-config ; "cost page" is https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence ; "launch page" is https://openai.com/index/introducing-gpt-6-sol-and-luna/ ; "Codex models page" is https://learn.chatgpt.com/docs/models ; "effort review" is a review of every route's effort against the tutorial, model-config and cost page, made in the origin project (the file is not carried; its findings are quoted where used).
+Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-right-effort-level-in-claude-code ; "model-config" is https://code.claude.com/docs/en/model-config ; "cost page" is https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence ; "launch page" is https://openai.com/index/introducing-gpt-6-sol-and-luna/ ; "Codex models page" is https://learn.chatgpt.com/docs/models ; "effort review" is a review of every route's effort against the tutorial, model-config and cost page, made in the maintainer's setup (the file is not carried; its findings are quoted where used).
 
 ## Routes
 
@@ -24,7 +24,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
   - model-config: `max` "may show diminishing returns and is prone to overthinking, so test before adopting it broadly". The tutorial says "Do not leave the effort on max". So the planner sits at xhigh, not max.
   - Cost: Opus 5.5 output is $20 per 1M tokens, so 100k extra thinking tokens cost $2.00. The route is rare because three conditions must hold.
   - Cost page, for coding only: "`xhigh` scored about 1.4 points higher for 2.5 times the cost of `high`". No planning benchmark exists (effort review).
-- **Why three conditions, why failure never activates it:** Reason: Opus is the costliest route and also the most intelligent model, so it triggers only for a task worth that cost. For failure, the inference is: a failure usually means a weak brief or an execution error, which Sonnet high or the coordinator fixes more cheaply than a strategic Opus review.
+- **Why three conditions, why failure never activates it:** Reason: Opus is the costliest route and also the most intelligent model, so it triggers only for a task worth that cost. The maintainer confirmed this inference: a failure usually means a weak brief or an execution error, which Sonnet high or the coordinator fixes more cheaply than a strategic Opus review.
 - **Why one planner:** reason not documented. Open.
 - **Would change if:** a measured block shows Opus high gives the same planning decision as xhigh (test in separate sessions, as the cost page says), or the planner is used often enough that its cost shows in the measurement log.
 
@@ -32,13 +32,13 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 
 - **Constraint:** closed tasks only: implementation and tests, fixed-schema extraction, bounded evidence packages. It writes final prose only when the brief fixes the contents and the outline and names the project's output-style file (`overlay.output-style`); the prose follows that file. It stops at an open point.
 - **Evidence:**
-  - Effort history in the origin project: high, then xhigh, then medium. The rule text of the final change states: "Effort is a ceiling, not a floor: medium for a closed task, xhigh for an open one." Sol takes closed tasks, so medium.
+  - Effort history: high, then xhigh, then medium. The rule text of the final change states: "Effort is a ceiling, not a floor: medium for a closed task, xhigh for an open one." Sol takes closed tasks, so medium.
   - model-config, `medium` on Claude models: "fits day-to-day engineering work with a clear scope". This covers Claude models only; no fetched text covers the Codex effort scale (effort review: "unverified").
   - Prices: gpt-6.1-sol equals Sonnet 5.5 on input and output list prices; its cache read price is $0.10 per 1M tokens against $0.20 for gpt-6-sol, and its cache write price is $2.50 per 1M tokens; Sonnet 5.5's cache read is now also $0.10 per 1M (`rationale-evidence.md`, "Prices" and its Corrections note). When Codex runs on a plan allowance, the OpenAI dollar figures compare models and do not bill.
   - Evidence checking: the Sonnet coordinator checks Sol's evidence against the cited sources. Reason: a Sonnet check reduces over-engineering by OpenAI models.
-  - Model switch: Sol moved from gpt-6-sol to gpt-6.1-sol at the same medium effort and Standard tier. Reason not documented. No benchmark or trial block compares the two on closed tasks. The medium effort history above was measured on gpt-6-sol; Codex says effort levels do not map exactly between model generations (Codex models page, quoted in the Luna entry), so the "Would change if" check applies to gpt-6.1-sol from now on. GPT-6.1 Sol has the same Standard credits as GPT-6 Sol on input and output (50 and 250 per 1M) and half the cached-input credits (2.5 against 5); its estimated local messages are 15-160 per five hours against 15-150 (Plus and Standard Business; `rationale-evidence.md`, Prices [K]).
+  - Model switch: Sol moved from gpt-6-sol to gpt-6.1-sol at the same medium effort and Standard tier. Reason: the maintainer gained access to gpt-6.1-sol and asked for the switch. No benchmark or trial block compares the two on closed tasks. The medium effort history above was measured on gpt-6-sol; Codex says effort levels do not map exactly between model generations (Codex models page, quoted in the Luna entry), so the "Would change if" check applies to gpt-6.1-sol from now on. GPT-6.1 Sol has the same Standard credits as GPT-6 Sol on input and output (50 and 250 per 1M) and half the cached-input credits (2.5 against 5); its estimated local messages are 15-160 per five hours against 15-150 (Plus and Standard Business; `rationale-evidence.md`, Prices [K]).
 - **Standard service tier:** the fast tier costs 2x on the API and 2.5x of included plan usage in Codex (2x on purchased credits; where the model supports Fast; see `rationale-evidence.md`, Prices). Reason for Standard: speed comes from delegating micro tasks, each a small piece that closes quickly; the work is to put each task where it belongs.
-- **Why Sol rather than a Claude model for closed work:** Reason: the workflow leans on Claude. To keep the Claude subscription from running out while the Codex subscription stays fully available, the work is split to cut Claude quota use or to raise use of OpenAI models.
+- **Why Sol rather than a Claude model for closed work:** Reason: the workflow leans on Claude. To save Claude usage while Codex capacity stays available, the work is split to cut Claude quota use or to raise use of OpenAI models.
 - **Why Sol writes closed final prose:** Decision: Sol writes closed final prose to save Claude quota; controls are the output-style file in the brief, the Haiku verifier and the maintainer's review.
 - **Would change if:** trial blocks show Sol medium failing the acceptance checks of closed tasks. Then raise one level at a time (tutorial: "adjust one level at a time"). Codex's scale is unverified, so measure before comparing it with Claude levels. Sol prose repeatedly fails the style check or the maintainer's review.
 
@@ -58,7 +58,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 
 - **Constraint:** the verifier for a result that has no objective check, and, in an environment without Codex workers, short closed tasks (summaries, classification, checks, small fixes).
 - **Evidence:**
-  - Verifier at xhigh: the rule text of the origin project stated "A verdict has no machine check, so it runs at xhigh." The line was removed when two Haiku rows merged; its reason holds today.
+  - Verifier at xhigh: an earlier version of the rules stated "A verdict has no machine check, so it runs at xhigh." The line was removed when two Haiku rows merged; its reason holds today.
   - Former route merge (short tasks and verifier into one route): reason not documented.
   - 100k limit: an early rule limited Haiku to contexts under 100k tokens because "its price rises fivefold above 100k" (list price $0.10 to $0.50 per 1M input). The limit was dropped. Reason: Haiku pricing is lower under 100k tokens, as the blog post announcing Haiku 5.5 says (not read here), but above 100k it is still cheap and still below Sonnet, so for the tasks Haiku takes it is better to dispatch Haiku than Sonnet. This matches the price fact: above 100k, Haiku input at $0.50 costs a quarter of Sonnet input at $2.
   - Cost page, "Compare models on cost per task": Haiku 5.5 answered GPQA Diamond at "about a twentieth of Claude Opus 5.5's cost per question, with 85% accuracy compared with 91% for Opus 5.5". It "suits high-volume and latency-sensitive work with checkable outputs". A verifier checks work that has no objective check, so this is a tension to keep in view.
@@ -71,7 +71,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 
 - **Constraint:** mechanical work with a defined check: build, lint, typecheck, CI, failing tests, data checks, inventories, fixed-schema transformations, fully specified local edits. It stops at anything else. It is free whenever the active environment runs Codex workers, even while a Computer Use task runs.
 - **Evidence:**
-  - Preferred over Haiku "so the routing does not lean on Claude" (rule text of the origin project).
+  - Preferred over Haiku "so the routing does not lean on Claude" (an earlier version of the rules).
   - Computer Use shares the Codex setup: the Codex config file set `model = "gpt-6-luna"`, `model_reasoning_effort = "max"`, `service_tier = "default"` in the tested setup. The Computer Use page does not say which model Computer Use uses, so "Computer Use runs on the config-file model" is an assumption that no page read confirms.
   - Prices: gpt-6-luna equals Haiku 5.5 up to 100K on list price (`rationale-evidence.md`, "Prices").
   - Why max: the early rule text states `max` with no reason. Reason given: a benchmark result on DeepSWE v1.1 at max effort. Codex reasoning-effort documentation was not checked for that choice. Evidence found afterwards:
@@ -83,7 +83,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
   - Against max: tutorial, "Do not leave the effort on max; try again at the default"; model-config, `max` is for "Hard problems you want Claude to work through without you". These cover Claude models. The Codex scale has no matching text beyond the page quoted above (effort review: "lower (principle supported; Codex effect unverified)").
 - **Priority rule removed.**
   - Old rule: Luna was free only when no Computer Use task was active or imminent, and while one was, a Luna task went to Haiku xhigh instead. Original reasons: (1) not to disturb the Computer Use task, for which interference is unverified; (2) to save Codex quota when Computer Use ran on GPT-5.6 Luna at max, which cost more than GPT-6 Luna at max.
-  - Reason for removal: no evidence was found that a second task interferes with Computer Use. If two Luna instances can run at once, they may. The quota argument is weaker too, because gpt-6-luna costs about half of gpt-5.6-luna per token and one twentieth of GPT-6 Sol (`rationale-evidence.md`, "Prices").
+  - Reason for removal: no evidence was found that a second task interferes with Computer Use. If two Luna instances can run at once, the maintainer wants them to. The quota argument is weaker too, because gpt-6-luna costs about half of gpt-5.6-luna per token and one twentieth of GPT-6 Sol (`rationale-evidence.md`, "Prices").
   - Evidence: the only documented conflict is two Computer Use tasks on the same app: "Do not run two Computer Use tasks against the same app at the same time." "Competing actions can change the current window or state and make the result unreliable." "On macOS, Computer Use can work in the background while you use other apps." (https://learn.chatgpt.com/use-cases/use-your-computer-with-codex). Nothing official covers a second task that is not Computer Use. A second task also draws on the same plan allowance ("Local messages and cloud chats share your plan's usage allowance.", https://learn.chatgpt.com/docs/pricing), and no page gives a per-task credit figure.
   - Status: the reason is absence of evidence, not evidence of no interference. Inference, untested: a Luna worker edits files and runs shell commands, which should not touch the windows Computer Use controls.
   - Kept: the Computer Use route, its config-file source and its approval step. Two Computer Use tasks on the same app stay a risk, per the page above, though no rule states it.
@@ -95,9 +95,9 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 
 - **Constraint:** desktop apps, driven through Codex. Model, effort and service tier come from the Codex config file.
 - **Evidence:**
-  - Config as the single source: the origin project found that the setting was never stated and that an omitted model takes the provider's first model, `gpt-6-astra`; the report behind that finding is not carried, so treat the behaviour as an observation, reason not documented beyond it. Hence the explicit target row in `delegation-t3.md`.
-  - Codex Computer Use runs only from T3 Code in the tested setup.
-  - Verified in the origin project: a Claude coordinator delegated a Computer Use task to Codex in T3 and received the result with no extra prompt.
+  - Config as the single source: the maintainer's setup showed that the setting was never stated and that an omitted model takes the provider's first model, `gpt-6-astra`; the report behind that finding is not carried, so treat the behaviour as an observation, reason not documented beyond it. Hence the explicit target row in `delegation-t3.md`.
+  - Codex Computer Use is not available from Claude Projects in the tested setup.
+  - Verified in the maintainer's setup: a Claude coordinator delegated a Computer Use task to Codex in T3 and received the result with no extra prompt.
 - **Would change if:** the maintainer changes the Codex config file. The rule needs no edit then. If Luna moves to medium, decide separately whether the config follows.
 
 ## Rules shared by all routes
@@ -123,7 +123,7 @@ Short names: "tutorial" is https://academy.claude.com/tutorials/choosing-the-rig
 - **Automatic quota-aware routing.** Not adopted. Reconsideration needs separate approval. Quota percentages from different providers are not interchangeable. A third-party resolver that sends the brief to an external classifier API and ranks candidates by quota did not fit (source report not carried: reason not documented beyond this summary).
   - Reason for a fixed policy now: a quota tool is available in the environment; routing should monitor quota spending. The removed trial procedure recorded quota spending. Direction: quota-aware routing later, where the choice of provider reacts to the quota available and to the days left until the quota refreshes.
   - Open direction, not a rule. The trial data is the input for that decision. Whether quota-axi reports the days to the refresh was not checked.
-- **Removing the coordinator's tools by prose alone.** Replaced by the restricted instance (`guard/README.md`). The origin research found the mechanism (a second Claude provider instance with `launchArgs` set to `--disallowedTools ...`) and the origin project later ran it end to end.
+- **Removing the coordinator's tools by prose alone.** Replaced by the restricted instance (`guard/README.md`). The origin research found the mechanism (a second Claude provider instance with `launchArgs` set to `--disallowedTools ...`) and the maintainer's setup later ran it end to end.
 - **Persistent sub-coordinators and deeper nesting.** Not adopted: nesting stops at two levels (`delegation-t3.md`); a third-party framework's "command structure stays flat" agrees (source report not carried).
 
 ### Worker policy: sandbox not adopted and sources (moved from delegation-t3.md)

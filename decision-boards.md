@@ -88,4 +88,4 @@ The build worker can revise an open board with `python3 -B <kit>/tools/lavish_bo
 
 ## Limits
 
-The board flow was tested on one machine, with the unit tests in `tests/test_lavish_board.py` and manual runs in T3 Code. Real sends were not tested. Rules above hold only if the board flow is retested after a change.
+The board flow was tested on one machine, with the unit tests in `tests/test_lavish_board.py` and manual runs in T3 Code. Rules above hold only if the board flow is retested after a change.

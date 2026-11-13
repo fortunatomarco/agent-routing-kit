@@ -1,6 +1,6 @@
 # Probe results
 
-Read when: you need the measured facts on whether workers read and write the kit folder from another project, or you plan the access test. This file lives in `examples/` because it records a tested setup; `GLOBAL-DELIVERY.md`, "Access and sandbox", summarizes it.
+Read when: you need the measured facts on whether workers read and write the kit folder from another project, or you plan the access test. This file lives in `examples/` because it records one tested setup and one session; `GLOBAL-DELIVERY.md`, "Access and sandbox", summarizes it.
 
 ## Method
 
@@ -41,9 +41,9 @@ The earlier wording 'no prompt' is superseded by the table below: a worker canno
 | --- | --- | ---: | --- | --- | --- |
 | Codex (gpt-6-luna) | auto-accept-edits | 2 | ok | denied both: `zsh:1: operation not permitted` (sandbox) | none |
 | Codex (gpt-6-luna) | auto | 2 | ok | denied both: same error (sandbox) | none |
-| Codex (gpt-6-luna) | approval-required | 1 usable | ok | ok | yes, inferred: the worker reported sandbox_mode read-only and approval_policy unless-trusted, and its write succeeded; 2 requests were recorded |
+| Codex (gpt-6-luna) | approval-required | 1 usable | ok | ok | yes, inferred: the worker reported sandbox_mode read-only and approval_policy unless-trusted, and its write succeeded, so an escalation was approved; the approver reported approving 2 requests |
 | Codex (gpt-6-luna) | full-access | 1 | ok | ok | none; mode shown as danger-full-access |
-| Claude (haiku-5-5) | auto | 3 | ok | ok in all 3 | none shown in the third sample; no refusal came; none reported in the first two |
+| Claude (haiku-5-5) | auto | 3 | ok | ok in all 3 | none shown in the third sample (the approver was told to deny writes; no refusal came); none reported in the first two |
 | Claude (haiku-5-5) | auto-accept-edits | 3 | ok | ok in all 3 | unknown: a worker cannot see an approval and approvals were not recorded per call |
 | Claude (haiku-5-5) | approval-required | 2 | ok | ok in both | unknown: same reason |
 | Claude (haiku-5-5) | full-access | 1 | ok | ok | none |

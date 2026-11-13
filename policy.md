@@ -50,7 +50,7 @@ The coordinator runs on Sonnet high. The environment does not change a task's mo
 
 ## Where work runs
 
-Repository and data work runs in an environment that has the repository and Codex workers (`overlay.environments` names them; T3 Code in the origin project, see `delegation-t3.md`). When the active environment lacks them, group related repository tasks into one handoff to one that has them, with a six-item brief (`briefs-review-escalation.md`). The environment that lacks them keeps short tasks that need no repository; Haiku takes the closed ones.
+Repository and data work runs in an environment that has the repository and Codex workers (`overlay.environments` names them; T3 Code, see `delegation-t3.md`). When the active environment lacks them, group related repository tasks into one handoff to one that has them, with a six-item brief (`briefs-review-escalation.md`). The environment that lacks them keeps short tasks that need no repository; Haiku takes the closed ones.
 
 ## Before you act
 

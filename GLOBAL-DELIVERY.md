@@ -9,7 +9,7 @@ Always-loaded text is a few plain-text lines that point at the kit and say when 
 
 ## 1. Pointer lines in the global file
 
-Claude reads `~/.claude/CLAUDE.md` and Codex reads `~/.codex/AGENTS.md`. On a machine where these are links, for example into a configuration repository managed by a tool such as Nix Home Manager, find the file that the link resolves to (`readlink -f`) and edit that source file, because an edit of the link target in a store is lost or refused. If one source file serves both, one edit reaches both. Append this section to the source file. It does not touch the existing lines. Claude and Codex both read it.
+Claude reads `~/.claude/CLAUDE.md` and Codex reads `~/.codex/AGENTS.md`. On a machine where these are links, for example into a configuration repository managed by a tool such as Nix Home Manager, find the file that the link resolves to (`readlink -f`) and edit that source file. If one source file serves both, one edit reaches both. Append this section to the source file. It does not touch the existing lines. Claude and Codex both read it.
 
 ```markdown
 ## Agent routing kit
@@ -107,7 +107,7 @@ The probe read the kit without this flag in two modes, so the flag may matter on
 
 The coordinator read guard denies `Read`, `Grep` and `Glob` on a file above 64 KiB (65,536 bytes) outside the project (`guard/hooks/coordinator-read-guard.py`, `MAX_EXTERNAL_BYTES`). The kit folder is outside every adopting project, so the limit applies to kit reads.
 
-`wc -c` on the tested kit root's Markdown files: the largest is `rationale.md` at 28,201 bytes (27.5 KiB). It fits, with 37,335 bytes to spare. No kit root file is near the limit. Re-run `wc -c *.md examples/*.md guard/README.md` after any large edit.
+`wc -c` on the tested kit root's Markdown files: the largest is `rationale.md` at 26,986 bytes (26.4 KiB). It fits, with 38,550 bytes to spare. No kit root file is near the limit. Re-run `wc -c *.md examples/*.md guard/README.md` after any large edit.
 
 ## 6. Guard plugin in T3 Code
 

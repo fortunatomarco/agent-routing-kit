@@ -23,7 +23,7 @@ Read a file when its trigger fires. Line 3 of each rule file ("Read when:") name
 | `communication.md` | language and STE levels, selectors, missing information, the five level-80 rules, ASD-STE100 rules 1 to 18, scope and limits |
 | `GLOSSARY.md` | plain meaning of the kit terms, with a pointer to the rule that holds the criteria |
 | `overlay-template.md` | required Communication settings, optional routing parameters, the kit commit checked by a project |
-| `guard/` | the coordinator guard plugin: hooks, `launch_args.py`, `README.md` (install, test, risks) |
+| `guard/` | the coordinator guard plugin: hooks, `guard/launch_args.py`, `guard/README.md` (install, test, risks) |
 | `tests/test_guard.py` | synthetic check of the hooks |
 | `GLOBAL-DELIVERY.md` | how the kit becomes global: the pointer lines, access and sandbox, protection, the guard install, the test protocol |
 | `examples/` | evidence behind the rules: the STE source check, the access probe, and the research notes on T3 Code and Firstmate |

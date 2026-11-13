@@ -24,7 +24,15 @@ import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
 
 ROOT = Path('/tmp/lavish-boards')
-BIN = Path.home() / '.agent-tools/lavish-axi/node_modules/.bin/lavish-axi'
+
+
+def _default_bin(environ=None):
+    environ = os.environ if environ is None else environ
+    value = environ.get('LAVISH_AXI_BIN')
+    return Path(value) if value else Path.home() / '.agent-tools/lavish-axi/node_modules/.bin/lavish-axi'
+
+
+BIN = _default_bin()
 TEMPLATE = Path(__file__).with_name('lavish_board_template.html')
 PORT = 43871
 EXTERNAL = re.compile(r'(?:https?:)?//(?!127\.0\.0\.1(?::|/)|localhost(?::|/))', re.I)
